@@ -1,0 +1,4 @@
+---
+java: "{% if es_java is defined %}{{es_java}}{% else %}openjdk-8-jre-headless{% endif %}"
+default_file: "/etc/default/logstash"
+ls_home: "/usr/share/logstash"

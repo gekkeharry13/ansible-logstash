@@ -1,0 +1,71 @@
+---
+
+#Test if feature is installed
+- name: Test if x-pack is installed
+  shell: "{{ls_home}}/bin/logstash-plugin list | grep x-pack"
+  become: yes
+  register: x_pack_installed
+  changed_when: False
+  failed_when: "'ERROR' in x_pack_installed.stdout"
+  check_mode: no
+  ignore_errors: yes
+  environment:
+    CONF_DIR: "{{ conf_dir }}"
+    ES_PATH_CONF: "{{ conf_dir }}"
+    ES_INCLUDE: "{{ instance_default_file }}"
+
+
+#Remove X-Pack if installed and its not been requested or the KB version has changed
+- name: Remove x-pack plugin
+  become: yes
+  command: "{{ls_home}}/bin/logstash-plugin remove x-pack"
+  register: xpack_state
+  failed_when: "'ERROR' in xpack_state.stdout"
+  changed_when: xpack_state.rc == 0
+  when: x_pack_installed.rc == 0 and (not ls_enable_xpack or ls_version_changed)
+  notify: restart logstash
+  environment:
+    CONF_DIR: "{{ conf_dir }}"
+    ES_PATH_CONF: "{{ conf_dir }}"
+    ES_INCLUDE: "{{ instance_default_file }}"
+
+
+#Install plugin if not installed, or the kb version has changed (so removed above), and its been requested
+- name: Download x-pack from url
+  get_url: url={{ ls_xpack_custom_url }} dest=/tmp/x-pack-{{ ls_version }}.zip
+  when: (x_pack_installed.rc == 1 or ls_version_changed) and (ls_enable_xpack and ls_xpack_custom_url is defined)
+
+- name: Install x-pack plugin from local
+  become: yes
+  command: >
+    {{ls_home}}/bin/logstash-plugin install file:///tmp/x-pack-{{ ls_version }}.zip
+  register: xpack_state
+  changed_when: xpack_state.rc == 0
+  when: (x_pack_installed.rc == 1 or ls_version_changed) and (ls_enable_xpack and ls_xpack_custom_url is defined)
+  notify: restart logstash
+  environment:
+    CONF_DIR: "{{ conf_dir }}"
+    ES_PATH_CONF: "{{ conf_dir }}"
+    ES_INCLUDE: "{{ instance_default_file }}"
+
+- name: Delete x-pack zip file
+  file: dest=/tmp/x-pack-{{ ls_version }}.zip state=absent
+  when: ls_xpack_custom_url is defined
+
+- name: Install x-pack plugin from elastic.co
+  become: yes
+  command: >
+    {{ls_home}}/bin/logstash-plugin install x-pack
+  register: xpack_state
+  failed_when: "'ERROR' in xpack_state.stdout"
+  changed_when: xpack_state.rc == 0
+  when: (x_pack_installed.rc == 1 or ls_version_changed) and (ls_enable_xpack and ls_xpack_custom_url is not defined)
+  notify: restart logstash
+  environment:
+    CONF_DIR: "{{ conf_dir }}"
+    ES_PATH_CONF: "{{ conf_dir }}"
+    ES_INCLUDE: "{{ instance_default_file }}"
+    ES_JAVA_OPTS: "{% if ls_proxy_host is defined and ls_proxy_host != '' %}-Dhttp.proxyHost={{ ls_proxy_host }} -Dhttp.proxyPort={{ ls_proxy_port }} -Dhttps.proxyHost={{ ls_proxy_host }} -Dhttps.proxyPort={{ ls_proxy_port }}{% endif %}"
+
+- name: Generate SSL/TLS environment
+  include: ./logstash-xpack-ssl.yml

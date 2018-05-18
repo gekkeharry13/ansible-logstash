@@ -1,0 +1,48 @@
+---
+
+- name: set fact force_install to no
+  set_fact: force_install=no
+
+- name: set fact force_install to yes
+  set_fact: force_install=yes
+  when: ls_allow_downgrades
+
+- name: Debian - Install apt-transport-https to support https APT downloads
+  become: yes
+  apt: name=apt-transport-https state=present
+  when: ls_use_repository
+
+- name: Debian - Add Elasticsearch repository key
+  become: yes
+  apt_key: url="{{ ls_apt_key }}" state=present
+  when: ls_use_repository and ls_apt_key
+
+- name: Debian - Add logstash repository
+  become: yes
+  apt_repository: repo={{ item.repo }} state={{ item.state}}
+  with_items:
+    - { repo: "{{ ls_apt_url_old }}", state: "absent" }
+    - { repo: "{{ ls_apt_url }}", state: "present" }
+  when: ls_use_repository
+
+- name: Debian - Ensure logstash is installed
+  become: yes
+  apt: name=logstash{% if ls_version is defined and ls_version != "" %}={{ ls_version }}{% endif %} state=present force={{force_install}} allow_unauthenticated={{ 'no' if ls_apt_key else 'yes' }} cache_valid_time=86400
+  when: ls_use_repository
+  register: debian_logstash_install_from_repo
+  notify: restart logstash
+
+- name: Debian - Include versionlock
+  include: logstash-Debian-version-lock.yml
+  when: ls_version_lock
+
+- name: Debian - Download logstash from url
+  get_url: url={% if ls_custom_package_url is defined %}{{ ls_custom_package_url }}{% else %}{{ ls_package_url }}-{{ ls_version }}.deb{% endif %} dest=/tmp/logstash-{{ ls_version }}.deb validate_certs=no
+  when: not ls_use_repository
+
+- name: Debian - Ensure logstash is installed from downloaded package
+  become: yes
+  apt: deb=/tmp/logstash-{{ ls_version }}.deb
+  when: not ls_use_repository
+  register: logstash_install_from_package
+  notify: restart logstash

@@ -1,0 +1,49 @@
+---
+ls_major_version: "6.x"
+ls_version: "6.2.3"
+ls_version_lock: false
+ls_use_repository: true
+ls_templatls_fileglob: "files/templates/*.json"
+ls_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+ls_apt_url: "deb https://artifacts.elastic.co/packages/{{ ls_major_version }}/apt stable main"
+ls_apt_url_old: "deb http://packages.elastic.co/elasticsearch/{{ ls_major_version }}/debian stable main"
+ls_start_service: true
+ls_java_install: true
+update_java: false
+ls_restart_on_change: true
+ls_plugins_reinstall: false
+ls_scripts: false
+ls_templates: false
+ls_user: logstash
+ls_group: logstash
+ls_config: {}
+ls_config_log4j2: log4j2.properties.j2
+#Need to provide default directories
+ls_pid_dir: "/var/run/logstash"
+ls_conf_dir: "/etc/logstash"
+ls_data_dirs: "/var/lib/logstash"
+ls_log_dir: "/var/log/logstash"
+ls_server_host: "localhost"
+ls_server_name: "localhost"
+ls_server_port: 5601
+ls_ssl_enabled: false
+#ls_max_open_files: 65536
+#ls_max_threads: "{{ 2048 if ( ls_version | version_compare('6.0.0', '<')) else 8192 }}"
+#ls_max_map_count: 262144
+ls_allow_downgrades: false
+ls_enable_xpack: false
+
+#These are used for internal operations performed by ansible.
+#They do not affect the current configuration
+ls_es_url: "https://localhost:9200"
+ls_es_user: "logstash"
+ls_debian_startup_timeout: 10
+
+# Since ansible 2.2 the following variables need to be defined
+# to allow the role to be conditionally played with a when condition.
+pid_dir: ''
+log_dir: ''
+conf_dir: ''
+data_dirs: ''
+# JVM custom parameters
+ls_jvm_custom_parameters: ''

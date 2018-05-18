@@ -1,0 +1,76 @@
+- name: Check if {{ls_conf_dir}}/ssl-internal folder exists
+  file:
+    path: "{{ls_conf_dir}}/ssl-internal"
+    state: directory
+    owner: logstash
+    group: logstash
+    mode: 0755
+  register: ls_es_ssl_folder
+
+#Check if internal ssl key is already present
+### Must also check if hash is correct, because it can be an old certificate
+- name: Verify if Logstash Cert keys are present
+  stat:
+    path: "{{ls_conf_dir}}/ssl-internal/{{ ls_es_ssl_config['dns'] }}.p12"
+  become: true
+  become_user: logstash
+  register: ls_ssl_cert_present
+  when: ls_es_ssl_config is defined
+
+- name: Copy certificates to Logstash
+  become: yes
+  become_user: logstash
+  copy: 
+    src: "/tmp/certs/ls-{{ ls_es_ssl_config['dns'] }}.p12" 
+    dest: "{{ls_conf_dir}}/ssl-internal/{{ ls_es_ssl_config['dns'] }}.p12"
+    owner: "{{ ls_user }}"
+    group: "{{ ls_group }}"
+    mode: 0600
+  when: not ls_ssl_cert_present.stat.exists and ls_es_ssl_folder
+
+#error hier
+# - name: Delete temporary extraction location
+#   become: yes
+#   file: 
+#     dest: "{{ls_conf_dir}}/ssl-internal"
+#     state: absent
+#   when: ls_es_ssl_config is defined and (not ls_ssl_cert_present.stat.exists or ls_es_ssl_config['regen_certs'])
+
+# - name: Unarchive certificates for Logstash
+#   # command: unzip {{ls_conf_dir}}/ls-{{ ls_es_ssl_config['dns'] }}.zip
+#   unarchive: 
+#     copy: true
+#     src: "/tmp/certs/ls-{{ ls_es_ssl_config['dns'] }}.zip" 
+#     dest: "{{ls_conf_dir}}"
+#   become: true
+#   when: ls_es_ssl_config is defined and (not ls_ssl_cert_present.stat.exists or ls_es_ssl_config['regen_certs'])
+#   register: ls_ssl_extracted_certs # << not working?
+
+#When rekey is enabled remove ssl folder << Test rekey!
+
+# - name: Move certificates to ssl folder
+#   become: yes
+#   command: "mv {{ls_conf_dir}}/{{ls_es_ssl_config['dns']}} {{ls_conf_dir}}/ssl-internal"
+#   when: ls_ssl_extracted_certs.changed
+
+- name: Delete temporary extraction location
+  become: yes
+  file: 
+    dest: "{{ls_conf_dir}}/{{ls_es_ssl_config['dns']}}"
+    state: absent
+  when: not ls_ssl_cert_present.stat.exists and ls_es_ssl_folder
+
+# - name: Verify if Logstash CA cert is present
+#   stat:
+#     path: "{{ls_conf_dir}}/ssl/elastic-ca.crt"
+#   become: true
+#   become_user: logstash
+#   register: ls_ssl_ca_cert_present
+#   when: ls_es_ssl_config is defined
+
+# - name: Copy CA certificate to ssl folder
+#   become: yes
+#   copy: 
+#     src: "/tmp/certs/elastic-ca.crt" 
+#     dest: "{{ls_conf_dir}}/ssl-internal/"
+#   when: not ls_ssl_ca_cert_present.stat.exists

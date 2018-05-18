@@ -1,0 +1,14 @@
+---
+
+#Activate Logstash user, maybe built in a way to verify the user is active already?
+- name: Activate the Logstash user and set the password
+  uri:
+    #This should be https or at least be able to use https!
+    url: "{{ls_es_url}}/_xpack/security/user/{{ ls_es_user }}/_password"
+    method: PUT
+    status_code: 200
+    user: "{{es_api_basic_auth_username}}"
+    password: "{{es_api_basic_auth_password}}"
+    force_basic_auth: yes
+    body_format: json
+    body: '"password" : "S3CuR1T!2018"'

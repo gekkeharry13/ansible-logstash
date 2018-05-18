@@ -1,0 +1,13 @@
+---
+
+- name: Include optional user and group creation.
+  when: (ls_user_id is defined) and (ls_group_id is defined)
+  include: logstash-optional-user.yml
+
+- name: Include specific Logstash
+  include: logstash-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Include specific Logstash
+  include: logstash-RedHat.yml
+  when: ansible_os_family == 'RedHat'

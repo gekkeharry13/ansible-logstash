@@ -1,0 +1,10 @@
+---
+- name: Debian - hold logstash version
+  become: yes
+  command: apt-mark hold logstash
+  register: hold_logstash_result
+  changed_when: "hold_logstash_result.stdout != 'logstash was already set on hold.'"
+- name: Debian - hold logstash version with aptitude
+  become: yes
+  command: aptitude hold logstash
+  register: aptitude_hold_logstash_result

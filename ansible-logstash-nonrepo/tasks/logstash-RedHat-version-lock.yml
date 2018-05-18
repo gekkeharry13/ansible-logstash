@@ -1,0 +1,7 @@
+---
+- name: RedHat - install yum-version-lock
+  become: yes
+  yum: name=yum-plugin-versionlock state=present update_cache=yes
+- name: RedHat - lock logstash version
+  become: yes
+  shell: yum versionlock delete 0:logstash* ; yum versionlock add logstash{% if ls_version is defined and ls_version != "" %}-{{ ls_version }}{% endif %}
