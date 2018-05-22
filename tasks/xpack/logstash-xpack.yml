@@ -8,11 +8,11 @@
 
 #Add any feature specific configuration here
 - name: Set Plugin Directory Permissions
-  become: yes
+  become: true
   file: state=directory path={{ ls_home }}/plugins owner={{ ls_user }} group={{ ls_group }} recurse=yes
 
 #Make sure logstash.keystore has correct Permissions
 # - name: Set logstash.keystore Permissions
-#   become: yes
+#   become: true
 #   file: state=file path=/var/lib/logstash/logstash.keystore owner={{ ls_user }} group={{ ls_group }}
 #   when: ls_enable_xpack and (ls_version | version_compare('6.0.0', '>'))
