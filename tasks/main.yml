@@ -49,4 +49,4 @@
 - name: Make sure logstash is started
   service: name=logstash state=restarted enabled=yes
   when: ls_start_service
-  become: true
+  become: yes

@@ -8,17 +8,17 @@
   when: ls_allow_downgrades
 
 - name: Debian - Install apt-transport-https to support https APT downloads
-  become: true
+  become: yes
   apt: name=apt-transport-https state=present
   when: ls_use_repository
 
 - name: Debian - Add Elasticsearch repository key
-  become: true
+  become: yes
   apt_key: url="{{ ls_apt_key }}" state=present
   when: ls_use_repository and ls_apt_key
 
 - name: Debian - Add logstash repository
-  become: true
+  become: yes
   apt_repository: repo={{ item.repo }} state={{ item.state}}
   with_items:
     - { repo: "{{ ls_apt_url_old }}", state: "absent" }
@@ -26,7 +26,7 @@
   when: ls_use_repository
 
 - name: Debian - Ensure logstash is installed
-  become: true
+  become: yes
   apt: name=logstash{% if ls_version is defined and ls_version != "" %}={{ ls_version }}{% endif %} state=present force={{force_install}} allow_unauthenticated={{ 'no' if ls_apt_key else 'yes' }} cache_valid_time=86400
   when: ls_use_repository
   register: debian_logstash_install_from_repo
@@ -41,7 +41,7 @@
   when: not ls_use_repository
 
 - name: Debian - Ensure logstash is installed from downloaded package
-  become: true
+  become: yes
   apt: deb=/tmp/logstash-{{ ls_version }}.deb
   when: not ls_use_repository
   register: logstash_install_from_package

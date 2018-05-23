@@ -1,12 +1,12 @@
 
 - name: reload systemd configuration
-  become: true
+  become: yes
   command: systemctl daemon-reload
 
 # Restart service and ensure it is enabled
 
 - name: restart logstash
-  become: true
+  become: yes
   service: name=logstash state=restarted enabled=yes
   when:
     - ls_restart_on_change

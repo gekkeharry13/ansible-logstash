@@ -9,7 +9,7 @@
 
 #List currently installed plugins. We have to list the directories as the list commmand fails if the KB version is different than the plugin version.
 - name: Check installed logstash plugins
-  become: true
+  become: yes
   shell: "{{ls_home}}/bin/logstash-plugin list"
   register: installed_plugins
   changed_when: False
@@ -37,7 +37,7 @@
 
 # This removes any currently installed plugins (to prevent errors when reinstalling). Exception made for x-pack
 - name: Remove logstash plugins
-  become: true
+  become: yes
   command: "{{ls_home}}/bin/logstash-plugin remove {{item}}"
   ignore_errors: yes
   with_items: "{{ plugins_to_remove | default([]) }}"
@@ -50,7 +50,7 @@
     # ls_INCLUDE: "{{ instance_default_file }}"
 
 - name: Install logstash plugins
-  become: true
+  become: yes
   command: "{{ls_home}}/bin/logstash-plugin install {{ item.plugin }}"
   register: plugin_installed
   failed_when: "'ERROR' in plugin_installed.stdout"
@@ -69,5 +69,5 @@
 
 #Set permissions on plugins directory
 - name: Set Plugin Directory Permissions
-  become: true
+  become: yes
   file: state=directory path={{ ls_home }}/plugins owner={{ ls_user }} group={{ ls_group }} recurse=yes

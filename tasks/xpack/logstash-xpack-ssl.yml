@@ -5,7 +5,7 @@
     owner: "{{ ls_user }}"
     group: logstash
     mode: 0755
-  become: true
+  become: yes
   register: ls_es_ssl_folder
 
 #Check if internal ssl key is already present
@@ -13,12 +13,12 @@
 - name: Verify if Logstash Cert keys are present
   stat:
     path: "{{ls_conf_dir}}/ssl-internal/{{ ls_es_ssl_config['dns'] }}.p12"
-  become: true
+  become: yes
   register: ls_ssl_cert_present
   when: ls_es_ssl_config is defined
 
 - name: Copy certificates to Logstash
-  become: true
+  become: yes
   copy: 
     src: "/tmp/certs/ls-{{ ls_es_ssl_config['dns'] }}.p12" 
     dest: "{{ls_conf_dir}}/ssl-internal/{{ ls_es_ssl_config['dns'] }}.p12"
@@ -28,7 +28,7 @@
   when: not ls_ssl_cert_present.stat.exists and ls_es_ssl_folder
 
 - name: Delete temporary extraction location
-  become: true
+  become: yes
   file: 
     dest: "{{ls_conf_dir}}/{{ls_es_ssl_config['dns']}}"
     state: absent
