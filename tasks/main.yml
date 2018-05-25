@@ -15,12 +15,6 @@
   tags:
       - java
 
-#Add required configuration to ElasticSearch
-# - name: include logstash-ES-configuration.yml
-#   include: logstash-ES-configuration.yml
-#   tags:
-#       - config
-
 - name: include logstash.yml
   include: logstash.yml
   tags:

@@ -20,7 +20,7 @@
 - name: Copy certificates to Logstash
   become: yes
   copy: 
-    src: "/tmp/certs/ls-{{ ls_es_ssl_config['dns'] }}.p12" 
+    src: "/tmp/as_ansible/certs/ls-{{ ls_es_ssl_config['dns'] }}.p12" 
     dest: "{{ls_conf_dir}}/ssl-internal/{{ ls_es_ssl_config['dns'] }}.p12"
     owner: "{{ ls_user }}"
     group: "{{ ls_group }}"

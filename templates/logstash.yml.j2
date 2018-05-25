@@ -17,7 +17,7 @@ xpack.management.elasticsearch.url: "{{ ls_es_ssl_config['elasticsearch.url'] }}
 xpack.management.elasticsearch.username: {{ ls_es_ssl_config['elasticsearch.username'] }}
 xpack.management.elasticsearch.password: "{{ ls_es_ssl_config['elasticsearch.password'] }}"
 xpack.management.elasticsearch.ssl.keystore.path: {{conf_dir}}/ssl-internal/{{ls_es_ssl_config['dns']}}.p12
-xpack.management.elasticsearch.ssl.keystore.password: "{{ ls_es_ssl_config['keystore_password'] }}"
+xpack.management.elasticsearch.ssl.keystore.password: "{{ p12_password }}"
 xpack.management.elasticsearch.ssl.truststore.path: {{conf_dir}}/ssl-internal/{{ls_es_ssl_config['dns']}}.p12
-xpack.management.elasticsearch.ssl.truststore.password: "{{ ls_es_ssl_config['truststore_password'] }}"
+xpack.management.elasticsearch.ssl.truststore.password: "{{ p12_password }}"
 {% endif %}
