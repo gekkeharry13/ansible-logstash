@@ -15,4 +15,4 @@
 # - name: Set logstash.keystore Permissions
 #   become: yes
 #   file: state=file path=/var/lib/logstash/logstash.keystore owner={{ ls_user }} group={{ ls_group }}
-#   when: ls_enable_xpack and (ls_version | version_compare('6.0.0', '>'))
+#   when: ls_enable_xpack and (ls_version is version_compare('6.0.0', '>'))

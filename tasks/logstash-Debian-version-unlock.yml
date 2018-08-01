@@ -1,0 +1,10 @@
+---
+- name: Debian - unhold logstash version
+  become: yes
+  command: apt-mark unhold logstash
+  register: unhold_logstash_result
+  changed_when: "unhold_logstash_result.stdout != 'logstash was already not hold.'"
+- name: Debian - unhold logstash version with aptitude
+  become: yes
+  command: aptitude unhold logstash
+  register: aptitude_unhold_logstash_result

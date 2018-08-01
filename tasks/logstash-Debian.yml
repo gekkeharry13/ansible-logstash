@@ -25,6 +25,10 @@
     - { repo: "{{ ls_apt_url }}", state: "present" }
   when: ls_use_repository
 
+- name: Debian - Remove version lock when upgrading
+  include: logstash-Debian-version-unlock.yml
+  when: ls_upgrade
+
 - name: Debian - Ensure logstash is installed
   become: yes
   apt: name=logstash{% if ls_version is defined and ls_version != "" %}={{ ls_version }}{% endif %} state=present force={{force_install}} allow_unauthenticated={{ 'no' if ls_apt_key else 'yes' }} cache_valid_time=86400

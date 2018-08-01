@@ -28,7 +28,7 @@ ls_server_name: "localhost"
 ls_server_port: 5601
 ls_ssl_enabled: false
 #ls_max_open_files: 65536
-#ls_max_threads: "{{ 2048 if ( ls_version | version_compare('6.0.0', '<')) else 8192 }}"
+#ls_max_threads: "{{ 2048 if ( ls_version is version_compare('6.0.0', '<')) else 8192 }}"
 #ls_max_map_count: 262144
 ls_allow_downgrades: false
 ls_enable_xpack: false
