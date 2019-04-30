@@ -1,6 +1,6 @@
 ---
-ls_major_version: "6.x"
-ls_version: "6.2.3"
+ls_major_version: "7.x"
+ls_version: "7.0.0"
 ls_version_lock: false
 ls_use_repository: true
 ls_templatls_fileglob: "files/templates/*.json"
