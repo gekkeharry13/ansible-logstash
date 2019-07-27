@@ -37,7 +37,7 @@
 #   tags:
 #       - xpack
 - name: Generate SSL/TLS environment
-  include: ./logstash-xpack-ssl.yml
+  include: xpack/logstash-xpack-ssl.yml
 
 - name: flush handlers
   meta: flush_handlers
