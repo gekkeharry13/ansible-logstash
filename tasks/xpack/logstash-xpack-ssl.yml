@@ -39,6 +39,7 @@
   java_cert:
     pkcs12_path: "{{ls_conf_dir}}/ssl-internal/{{ ls_es_ssl_config['dns'] }}.p12"
     pkcs12_alias: ca
+    pkcs12_password: "{{ p12_password }}"
     cert_alias: elastic_ca
     keystore_path: /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/cacerts
     keystore_pass: changeit
