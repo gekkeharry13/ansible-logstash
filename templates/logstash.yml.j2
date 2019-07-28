@@ -4,6 +4,7 @@
 
 {% if ls_xpack_config is defined %}
 {% if ls_xpack_config['ls_monitoring_password'] is defined %}
+xpack.monitoring.enabled: true
 xpack.monitoring.elasticsearch.hosts: ["{{ ls_es_ssl_config['elasticsearch.url'] }}"]
 xpack.monitoring.elasticsearch.password: "{{ ls_xpack_config['ls_monitoring_password'] }}"
 {% endif %}
