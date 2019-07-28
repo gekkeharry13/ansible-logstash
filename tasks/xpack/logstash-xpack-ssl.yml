@@ -33,16 +33,3 @@
     dest: "{{ls_conf_dir}}/{{ls_es_ssl_config['dns']}}"
     state: absent
   when: not ls_ssl_cert_present.stat.exists and ls_es_ssl_folder
-
-#### As Logstash looks to the default keystore of JAVA (instead of its own for some reason). This fix is implemented
-- name: Import a elastic CA to JAVA keystore
-  java_cert:
-    pkcs12_path: "{{ls_conf_dir}}/ssl-internal/{{ ls_es_ssl_config['dns'] }}.p12"
-    pkcs12_alias: ca
-    pkcs12_password: "{{ p12_password }}"
-    cert_alias: elastic_ca
-    keystore_path: /usr/lib/jvm/java-8-openjdk-amd64/jre/lib/security/cacerts
-    keystore_pass: changeit
-    keystore_create: yes
-    state: present
-  become: yes
