@@ -44,3 +44,4 @@
     keystore_pass: changeit
     keystore_create: yes
     state: present
+  become: yes
