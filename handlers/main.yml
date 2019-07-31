@@ -12,6 +12,6 @@
     - ls_start_service
   register: ls_restarted
 
-  - name: restart memcached
+- name: restart memcached
   become: yes
   service: name=memcached state=restarted enabled=yes
