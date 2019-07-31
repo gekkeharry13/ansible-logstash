@@ -10,6 +10,10 @@ ls_apt_url_old: "deb http://packages.elastic.co/elasticsearch/{{ ls_major_versio
 ls_start_service: true
 ls_java_install: true
 update_java: false
+ls_memcached_install: false
+ls_memcached_user: memcache
+ls_memcached_config_file: /etc/memcached.conf
+ls_memcached_memory_cap: 256
 ls_restart_on_change: true
 ls_plugins_reinstall: false
 ls_scripts: false

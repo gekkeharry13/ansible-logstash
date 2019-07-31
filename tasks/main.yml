@@ -12,24 +12,20 @@
 - name: include java.yml
   include: java.yml
   when: ls_java_install
-  tags:
-      - java
+
+- name: include memcached.yml
+  include: memcached.yml
+  when: ls_memcached_install
 
 - name: include logstash.yml
   include: logstash.yml
-  tags:
-      - install
 
 - name: include logstash-config.yml
   include: logstash-config.yml
-  tags:
-      - config
 
 - name: include logstash-plugins.yml
   include: logstash-plugins.yml
   when: ls_plugins is defined or ls_plugins_reinstall
-  tags:
-      - plugins
 
 #   #We always execute xpack as we may need to remove features
 # - name: include xpack/logstash-xpack.yml

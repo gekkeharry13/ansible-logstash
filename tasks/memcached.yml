@@ -1,0 +1,31 @@
+---
+- name: Ensure memcached user is created
+  become: yes
+  user:
+    state: present
+    name: "{{ ls_memcached_user }}"
+    comment: memcached system user
+    system: yes
+    createhome: no
+
+- name: Debian - Ensure memcached is installed
+  become: yes
+  apt: 
+    name: memcached 
+    state: present
+    cache_valid_time: 86400
+
+- name: Copy Memcached configuration file
+  template:
+    src: memcached.conf.j2
+    dest: "{{ ls_memcached_config_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart memcached
+
+- name: Ensure Memcached is started and enabled
+  service: 
+    name: memcached
+    state: started
+    enabled: yes
