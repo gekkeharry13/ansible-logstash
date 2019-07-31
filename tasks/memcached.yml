@@ -16,6 +16,7 @@
     cache_valid_time: 86400
 
 - name: Copy Memcached configuration file
+  become: yes
   template:
     src: memcached.conf.j2
     dest: "{{ ls_memcached_config_file }}"
@@ -25,6 +26,7 @@
   notify: restart memcached
 
 - name: Ensure Memcached is started and enabled
+  become: yes
   service: 
     name: memcached
     state: started
