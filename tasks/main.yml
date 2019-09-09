@@ -23,6 +23,11 @@
 - name: include logstash-config.yml
   include: logstash-config.yml
 
+- name: Make sure logstash is stopped
+  service: name=logstash state=stopped enabled=yes
+  when: ls_start_service
+  become: yes
+
 - name: include logstash-plugins.yml
   include: logstash-plugins.yml
   when: ls_plugins is defined or ls_plugins_reinstall
