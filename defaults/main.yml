@@ -9,6 +9,7 @@ ls_apt_url: "deb https://artifacts.elastic.co/packages/{{ ls_major_version }}/ap
 ls_apt_url_old: "deb http://packages.elastic.co/elasticsearch/{{ ls_major_version }}/debian stable main"
 ls_start_service: true
 ls_java_install: true
+ls_heap_size: 2g
 update_java: false
 ls_memcached_install: false
 ls_memcached_user: memcache

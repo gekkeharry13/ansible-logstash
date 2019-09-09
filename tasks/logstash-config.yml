@@ -17,6 +17,11 @@
   register: system_change
   notify: restart logstash
 
+- name: Copy jvm.options File for Instance
+  become: yes
+  template: src=jvm.options.j2 dest={{conf_dir}}/jvm.options owner={{ ls_user }} group={{ ls_group }} mode=0644 force=yes
+  notify: restart logstash
+
 #Copy the instance specific init file
 # - name: Copy Debian Init File for Instance
 #   become: yes
