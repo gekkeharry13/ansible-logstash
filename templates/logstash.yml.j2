@@ -22,3 +22,6 @@ xpack.management.elasticsearch.ssl.keystore.password: "{{ p12_password }}"
 xpack.management.elasticsearch.ssl.truststore.path: {{conf_dir}}/ssl-internal/{{ls_es_ssl_config['dns']}}.p12
 xpack.management.elasticsearch.ssl.truststore.password: "{{ p12_password }}"
 {% endif %}
+
+#Enable if the queue must be drained before exiting (requires restart)
+#queue.drain: true
