@@ -31,7 +31,7 @@
 #   when: ls_plugins_reinstall
 
 #Create empty array
-- name: set fact to plugins_to_install to those in ls_config but not installed
+- name: set fact empty fact plugins_to_install
   set_fact: plugins_to_install=[]
 
 #if the plugins listed are different than those requested, we install those not installed but listed in the config
