@@ -7,13 +7,13 @@
 #   set_fact: list_command="| grep -vE 'x-pack'"
 #   when: not ls_plugins_reinstall
 
-# #List currently installed plugins. We have to list the directories as the list commmand fails if the KB version is different than the plugin version.
-# - name: Check installed logstash plugins
-#   become: yes
-#   shell: "{{ls_home}}/bin/logstash-plugin list"
-#   register: installed_plugins
-#   changed_when: False
-#   ignore_errors: yes
+#List currently installed plugins. We have to list the directories as the list commmand fails if the KB version is different than the plugin version.
+- name: Check installed logstash plugins
+  become: yes
+  shell: "{{ls_home}}/bin/logstash-plugin list"
+  register: installed_plugins
+  changed_when: False
+  ignore_errors: yes
 
 # #if ls_plugins_reinstall is set to true we remove ALL plugins
 # - name: set fact plugins_to_remove to install_plugins.stdout_lines
