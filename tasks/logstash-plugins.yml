@@ -37,7 +37,7 @@
 #if the plugins listed are different than those requested, we install those not installed but listed in the config
 - name: set fact to plugins_to_install to those in ls_config but not installed
   set_fact: plugins_to_install="{{ plugins_to_install }} + {{ item.plugin | default([]) }}"
-  loop: ls_plugins
+  loop: "{{ ls_plugins }}"
   when: not ls_plugins_reinstall and item in installed_plugins.stdout_lines
 
 # # This removes any currently installed plugins (to prevent errors when reinstalling). Exception made for x-pack
