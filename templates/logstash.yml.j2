@@ -4,7 +4,8 @@
 
 {% if ls_xpack_config is defined %}
 {% if ls_xpack_config['ls_monitoring_password'] is defined %}
-xpack.monitoring.elasticsearch.url: "{{ ls_es_ssl_config['elasticsearch.url'] }}"
+xpack.monitoring.enabled: true
+xpack.monitoring.elasticsearch.hosts: ["{{ ls_es_ssl_config['elasticsearch.url'] }}"]
 xpack.monitoring.elasticsearch.password: "{{ ls_xpack_config['ls_monitoring_password'] }}"
 {% endif %}
 xpack.management.logstash.poll_interval: {{ ls_xpack_config['poll_interval'] }}
@@ -13,7 +14,7 @@ xpack.management.pipeline.id: {{ ls_xpack_config['allowed_pipelines'] }}
 
 {% if ls_es_ssl_config is defined %}
 xpack.management.enabled: true
-xpack.management.elasticsearch.url: "{{ ls_es_ssl_config['elasticsearch.url'] }}"
+xpack.management.elasticsearch.hosts: ["{{ ls_es_ssl_config['elasticsearch.url'] }}"]
 xpack.management.elasticsearch.username: {{ ls_es_ssl_config['elasticsearch.username'] }}
 xpack.management.elasticsearch.password: "{{ ls_es_ssl_config['elasticsearch.password'] }}"
 xpack.management.elasticsearch.ssl.keystore.path: {{conf_dir}}/ssl-internal/{{ls_es_ssl_config['dns']}}.p12
@@ -21,3 +22,6 @@ xpack.management.elasticsearch.ssl.keystore.password: "{{ p12_password }}"
 xpack.management.elasticsearch.ssl.truststore.path: {{conf_dir}}/ssl-internal/{{ls_es_ssl_config['dns']}}.p12
 xpack.management.elasticsearch.ssl.truststore.password: "{{ p12_password }}"
 {% endif %}
+
+#Enable if the queue must be drained before exiting (requires restart)
+#queue.drain: true

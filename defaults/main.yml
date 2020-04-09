@@ -1,6 +1,6 @@
 ---
-ls_major_version: "6.x"
-ls_version: "6.2.3"
+ls_major_version: "7.x"
+ls_version: "7.0.0"
 ls_version_lock: false
 ls_use_repository: true
 ls_templatls_fileglob: "files/templates/*.json"
@@ -9,7 +9,12 @@ ls_apt_url: "deb https://artifacts.elastic.co/packages/{{ ls_major_version }}/ap
 ls_apt_url_old: "deb http://packages.elastic.co/elasticsearch/{{ ls_major_version }}/debian stable main"
 ls_start_service: true
 ls_java_install: true
+ls_heap_size: 2g
 update_java: false
+ls_memcached_install: false
+ls_memcached_user: memcache
+ls_memcached_config_file: /etc/memcached.conf
+ls_memcached_memory_cap: 256
 ls_restart_on_change: true
 ls_plugins_reinstall: false
 ls_scripts: false
