@@ -1,11 +1,11 @@
 [logstash-{{ ls_major_version }}]
-name=Elastic repository for Logstash {{ es_major_version }} packages
-baseurl=https://artifacts.elastic.co/packages/{{ es_major_version }}/yum
+name=Elastic repository for Logstash {{ ls_major_version }} packages
+baseurl=https://artifacts.elastic.co/packages/{{ ls_major_version }}/yum
 gpgcheck=1
 gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
 enabled=1
 autorefresh=1
 type=rpm-md
-{% if es_proxy_host is defined and es_proxy_host != '' and es_proxy_port is defined %}
-proxy=http://{{ es_proxy_host }}:{{es_proxy_port}}
+{% if ls_proxy_host is defined and ls_proxy_host != '' and ls_proxy_port is defined %}
+proxy=http://{{ ls_proxy_host }}:{{ls_proxy_port}}
 {% endif %}
