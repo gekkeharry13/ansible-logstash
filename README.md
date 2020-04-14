@@ -13,7 +13,8 @@ Ansible role for 6.x/5.x Logstash.  Currently this works on Debian and RedHat ba
 ##Prereqs
 TLS certs must be present at: /tmp/as_ansible/certs/ls-<ls_es_ssl_config['dns']>.p12 **<< variable used in sample config is: elasticsearch_dns**
 
-##hosts.yml
+## hosts.yml
+```
 logstash:
       hosts:
         <host>:
@@ -22,8 +23,9 @@ logstash:
         ls_version_lock: true
         ls_upgrade: false
         ls_version: "1:7.6.1-1"
-
-##playbook.yml
+```
+## playbook.yml
+```
 - hosts: logstash
   any_errors_fatal: true
   vars:
@@ -49,3 +51,4 @@ logstash:
       elasticsearch.username: "<logstash_user>"
       elasticsearch.password: "<logstash_user_password>"
     ls_enable_xpack: true
+```
