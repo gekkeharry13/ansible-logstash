@@ -30,7 +30,7 @@ logstash:
     ls_conf_dir: /etc/logstash
   roles:
   - role: logstash
-    ls_instance_name: "asls1"
+    ls_instance_name: "ls1"
     ls_memcached_install: <true/false>
     action_auto_create_index: true
     ls_config:
