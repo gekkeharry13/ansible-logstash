@@ -10,7 +10,7 @@ Ansible role for 6.x/5.x Logstash.  Currently this works on Debian and RedHat ba
 * Debian 9
 
 # Sample configuration
-##Prereqs
+## Prereqs
 TLS certs must be present at: /tmp/as_ansible/certs/ls-<ls_es_ssl_config['dns']>.p12 **<< variable used in sample config is: elasticsearch_dns**
 
 ## hosts.yml
