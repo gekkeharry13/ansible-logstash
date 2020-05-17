@@ -31,16 +31,16 @@
   apt: update_cache=yes
   changed_when: false
   when: ansible_os_family == 'Debian'
-  tag: 
-    - no_es_apt
+  tags: 
+    - no_apt
     - always
 
 - name: Debian - Ensure Java is installed
   become: yes
   apt: name={{ java }} state={{java_state}}
   when: ansible_os_family == 'Debian'
-  tag: 
-    - no_es_apt
+  tags: 
+    - no_apt
     - always
 
 - name: register open_jdk version
