@@ -18,7 +18,6 @@
   when: ls_use_repository and ls_apt_key
   tags: 
     - no_apt
-    - always
 
 - name: Debian - Add logstash repository
   become: yes
@@ -29,7 +28,6 @@
   when: ls_use_repository
   tags: 
     - no_apt
-    - always
 
 - name: Debian - Remove version lock when upgrading
   include: logstash-Debian-version-unlock.yml

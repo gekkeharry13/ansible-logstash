@@ -33,7 +33,6 @@
   when: ansible_os_family == 'Debian'
   tags: 
     - no_apt
-    - always
 
 - name: Debian - Ensure Java is installed
   become: yes
@@ -41,7 +40,6 @@
   when: ansible_os_family == 'Debian'
   tags: 
     - no_apt
-    - always
 
 - name: register open_jdk version
   shell: java -version 2>&1 | grep OpenJDK
